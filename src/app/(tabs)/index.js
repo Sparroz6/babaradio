@@ -18,6 +18,7 @@ export default function Albums() {
   const [albums, setAlbums] = useState(null);
 
   useEffect(() => {
+    let annule = false;
     async function charger() {
       setAlbums(null);
       try {
@@ -25,12 +26,15 @@ export default function Albums() {
           `https://api.deezer.com/chart/${genre}/albums`,
         );
         const data = await reponse.json();
-        setAlbums(data.data ?? []);
-      } catch (e) {
-        setAlbums([]);
+        if (!annule) setAlbums(data.data ?? []);
+      } catch {
+        if (!annule) setAlbums([]);
       }
     }
     charger();
+    return () => {
+      annule = true;
+    };
   }, [genre]);
 
   return (
@@ -59,7 +63,7 @@ export default function Albums() {
           </Pressable>
         ))}
       </View>
-      // ------------------------------------- // Montrez les albums
+      {/* Montrez les albums */}
       {albums === null ? (
         <ActivityIndicator size="large" style={{ marginTop: 40 }} />
       ) : (
