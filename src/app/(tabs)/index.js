@@ -59,7 +59,7 @@ export default function Albums() {
           </Pressable>
         ))}
       </View>
-      // ------------------------------------- // Montrez les albums
+
       {albums === null ? (
         <ActivityIndicator size="large" style={{ marginTop: 40 }} />
       ) : (
